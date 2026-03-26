@@ -2,47 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark theme tokens (HSL components for hsl(var(--*))) */
+/* Premium Automotive Theme - Dark with Red Motorsport Accents */
 :root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 217 91% 50%;
-  --primary-foreground: 210 40% 98%;
-  --accent: 152 100% 50%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --card: 224 71% 7%;
-  --card-foreground: 210 40% 98%;
-  --popover: 224 71% 7%;
-  --popover-foreground: 210 40% 98%;
-  --secondary: 217 33% 20%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 16% 56%;
-  --border: 240 17% 15%;
-  --input: 240 17% 15%;
-  --ring: 217 91% 50%;
-  --destructive: 0 62.8% 35%;
-  --destructive-foreground: 210 40% 98%;
-  --radius: 0.75rem;
-  --radius-md: 0.75rem;
+  --background: 0 0% 4%;           /* Pure dark #0a0a0a */
+  --foreground: 0 0% 95%;          /* Near white #f2f2f2 */
+  --primary: 0 72% 51%;            /* Red #DC2626 - motorsport */
+  --primary-foreground: 0 0% 100%; /* Pure white */
+  --accent: 43 74% 58%;            /* Gold #D4A853 - premium */
+  --accent-foreground: 0 0% 10%;   /* Dark text on gold */
+  --card: 0 0% 7%;                 /* Dark card #121212 */
+  --card-foreground: 0 0% 95%;     /* Near white */
+  --popover: 0 0% 7%;              /* Dark popover #121212 */
+  --popover-foreground: 0 0% 95%;  /* Near white */
+  --secondary: 0 0% 15%;           /* Dark secondary #262626 */
+  --secondary-foreground: 0 0% 95%; /* Near white */
+  --muted: 0 0% 20%;               /* Muted dark #333333 */
+  --muted-foreground: 0 0% 55%;    /* Muted text #8c8c8c */
+  --border: 0 0% 15%;              /* Subtle border #262626 */
+  --input: 0 0% 15%;               /* Input border #262626 */
+  --ring: 0 72% 51%;               /* Red ring #DC2626 */
+  --destructive: 0 62.8% 35%;      /* Keep destructive red */
+  --destructive-foreground: 0 0% 98%; /* White text */
+  --radius: 0.5rem;                /* Slightly sharper corners */
+  --radius-md: 0.5rem;
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
+/* Clean, subtle animations for premium automotive feel */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-  50% {
+  to {
     opacity: 1;
   }
 }
@@ -50,27 +40,11 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(0, 102, 255, 0.6);
-  }
-}
-
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
   }
 }
 
@@ -84,20 +58,11 @@
 }
 
 @layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  .animate-glow {
-    animation: glow 3s ease-in-out infinite;
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out both;
   }
   .animate-slide-up {
     animation: slideUp 0.7s ease-out both;
-  }
-  .animate-pulse-glow {
-    animation: pulse-glow 2.5s ease-in-out infinite;
-  }
-  .animate-spin-slow {
-    animation: spin-slow 24s linear infinite;
   }
   .animate-marquee {
     animation: marquee 40s linear infinite;
@@ -118,17 +83,17 @@
   }
 
   ::selection {
-    @apply bg-primary/30 text-foreground;
+    @apply bg-primary/20 text-foreground;
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--primary) / 0.45) hsl(var(--background));
+    scrollbar-color: hsl(var(--primary) / 0.5) hsl(var(--background));
   }
 
   *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   *::-webkit-scrollbar-track {
@@ -136,11 +101,11 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.35);
-    border-radius: 9999px;
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.55);
+    background: hsl(var(--primary) / 0.6);
   }
 }

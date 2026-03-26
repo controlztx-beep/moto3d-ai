@@ -99,7 +99,7 @@ export function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "border-b border-border/60 bg-background/80 shadow-sm backdrop-blur-xl"
+          ? "border-b border-neutral-800 bg-black/90 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -110,7 +110,7 @@ export function Navbar() {
           </span>
           <span className="font-display text-lg font-bold tracking-tight">
             MOTO3D{" "}
-            <Badge className="ml-1 border-accent/40 bg-accent/15 px-1.5 py-0 text-[10px] font-bold tracking-wider text-accent">
+            <Badge className="ml-1 border-red-500/40 bg-red-500/15 px-1.5 py-0 text-[10px] font-bold tracking-wider text-red-500">
               AI
             </Badge>
           </span>
@@ -196,10 +196,7 @@ export function Navbar() {
               </Link>
               <Link
                 href="/register"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "animate-pulse-glow gap-2 px-5",
-                )}
+                className="inline-flex h-10 items-center gap-2 rounded-md bg-red-600 px-6 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-red-700"
               >
                 Start Free
                 <ArrowRight className="h-4 w-4" />

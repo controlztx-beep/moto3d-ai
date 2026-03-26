@@ -64,8 +64,7 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="border-border/40 relative z-10 mt-24 border-t bg-[hsl(222.2_40%_6%)]">
-      <div className="from-primary/25 via-accent/20 to-primary/25 h-px w-full bg-gradient-to-r opacity-80" />
+    <footer className="relative z-10 border-t border-neutral-800 bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
@@ -75,67 +74,70 @@ export function Footer() {
               </span>
               <span className="font-display text-lg font-bold tracking-tight">
                 MOTO3D{" "}
-                <Badge className="border-accent/40 bg-accent/15 ml-1 px-1.5 py-0 text-[10px] font-bold text-accent">
+                <Badge className="ml-1 border-red-500/40 bg-red-500/15 px-1.5 py-0 text-[10px] font-bold text-red-500">
                   AI
                 </Badge>
               </span>
             </Link>
-            <p className="text-muted-foreground max-w-xs text-sm leading-relaxed">
-              AI-powered 3D motorcycle configuration for dealerships and manufacturers.
+            <p className="text-sm leading-relaxed text-neutral-400">
+              AI-powered 3D motorcycle configurator for modern dealerships.
+              Transform your showroom experience.
+            </p>
+            <p className="text-sm leading-relaxed text-neutral-400">
               Photoreal previews, smart recommendations, and frictionless checkout flows.
             </p>
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3">
               <a
-                href="https://github.com"
+                href="https://github.com/moto3d-ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
+                className="text-neutral-400 transition-colors hover:text-red-500"
                 aria-label="GitHub"
               >
-                <SocialIconGitHub className="h-4 w-4" />
+                <SocialIconGitHub className="h-5 w-5" />
               </a>
               <a
-                href="https://x.com"
+                href="https://x.com/moto3dai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
-                aria-label="X"
+                className="text-neutral-400 transition-colors hover:text-red-500"
+                aria-label="X (Twitter)"
               >
-                <SocialIconX className="h-4 w-4" />
+                <SocialIconX className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/company/moto3d-ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
+                className="text-neutral-400 transition-colors hover:text-red-500"
                 aria-label="LinkedIn"
               >
-                <SocialIconLinkedIn className="h-4 w-4" />
+                <SocialIconLinkedIn className="h-5 w-5" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://youtube.com/@moto3dai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
+                className="text-neutral-400 transition-colors hover:text-red-500"
                 aria-label="YouTube"
               >
-                <SocialIconYouTube className="h-4 w-4" />
+                <SocialIconYouTube className="h-5 w-5" />
               </a>
             </div>
           </div>
 
           <div>
-            <h3 className="font-display mb-4 text-sm font-semibold tracking-wide">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Product
             </h3>
-            <ul className="space-y-3 text-sm">
-              {product.map((l) => (
-                <li key={l.label}>
+            <ul className="space-y-3">
+              {product.map((item) => (
+                <li key={item.label}>
                   <Link
-                    href={l.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    href={item.href}
+                    className="text-sm text-neutral-400 transition-colors hover:text-red-500"
                   >
-                    {l.label}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -143,17 +145,17 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display mb-4 text-sm font-semibold tracking-wide">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Company
             </h3>
-            <ul className="space-y-3 text-sm">
-              {company.map((l) => (
-                <li key={l.label}>
+            <ul className="space-y-3">
+              {company.map((item) => (
+                <li key={item.label}>
                   <Link
-                    href={l.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    href={item.href}
+                    className="text-sm text-neutral-400 transition-colors hover:text-red-500"
                   >
-                    {l.label}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -161,17 +163,17 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display mb-4 text-sm font-semibold tracking-wide">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Legal
             </h3>
-            <ul className="mb-8 space-y-3 text-sm">
-              {legal.map((l) => (
-                <li key={l.label}>
+            <ul className="space-y-3">
+              {legal.map((item) => (
+                <li key={item.label}>
                   <Link
-                    href={l.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    href={item.href}
+                    className="text-sm text-neutral-400 transition-colors hover:text-red-500"
                   >
-                    {l.label}
+                    {item.label}
                   </Link>
                 </li>
               ))}

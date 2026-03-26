@@ -11,7 +11,6 @@ import {
   Check,
   Code,
   Box,
-  Layers,
   Play,
   Search,
   Share2,
@@ -30,9 +29,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 const HeroMotorcycle = dynamic(
@@ -51,74 +48,56 @@ const DemoMotorcycleGLB = dynamic(
   { ssr: false },
 );
 
-const sectionReveal = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.06 },
-  },
-};
-
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
 const DEMO_COLORS = [
-  { hex: "#FF3333", label: "Red" },
-  { hex: "#0066FF", label: "Blue" },
-  { hex: "#111111", label: "Black" },
-  { hex: "#EEEEEE", label: "White" },
-  { hex: "#00FF88", label: "Green" },
-  { hex: "#FF8800", label: "Orange" },
+  { hex: "#DC2626", label: "Red" },
+  { hex: "#0a0a0a", label: "Black" },
+  { hex: "#f5f5f5", label: "White" },
+  { hex: "#9ca3af", label: "Silver" },
+  { hex: "#3b82f6", label: "Blue" },
+  { hex: "#10b981", label: "Green" },
 ] as const;
-
-const brands = [
-  "RevMoto Labs",
-  "Atlas Ride Co.",
-  "Northline Motors",
-  "Veloce Moto",
-  "IronPulse",
-  "Driftline EU",
-  "Thundergrid",
-  "NeoCycle",
-];
 
 const features = [
   {
     icon: Box,
     title: "Real-time 3D Configuration",
-    body: "Interactive 3D models with realistic materials and lighting. Rotate, zoom, and inspect every detail.",
+    body: "Interactive 3D models with realistic materials and lighting. Customers can rotate, zoom, and inspect every detail.",
   },
   {
     icon: Brain,
     title: "AI-Powered Recommendations",
-    body: "Smart AI assistant suggests parts, colors, and configurations based on riding style and preferences.",
-  },
-  {
-    icon: Layers,
-    title: "Detailed Parts Database",
-    body: "Comprehensive information about every component - specifications, compatibility, pricing, and purpose.",
+    body: "Smart AI assistant suggests parts, colors, and configurations based on riding style and customer preferences.",
   },
   {
     icon: Code,
-    title: "Easy Website Integration",
-    body: "Embed the configurator on any website with a simple code snippet. Full API access for custom integrations.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile Responsive",
-    body: "Perfect experience on any device. Touch-optimized 3D controls for mobile users.",
+    title: "Easy Integration",
+    body: "One line of code to embed. Works seamlessly with your existing website. No complex setup required.",
   },
   {
     icon: BarChart3,
-    title: "Analytics Dashboard",
-    body: "Track user interactions, popular configurations, and conversion metrics in real-time.",
+    title: "Advanced Analytics",
+    body: "Track customer configurations, popular choices, and conversion metrics. Optimize your inventory accordingly.",
   },
-] as const;
+  {
+    icon: Share2,
+    title: "Social Sharing",
+    body: "Customers can share their dream configurations on social media, generating organic marketing for your dealership.",
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile Optimized",
+    body: "Perfect experience on all devices. Touch-friendly controls and responsive design ensure accessibility everywhere.",
+  },
+];
 
 const faqItems = [
   {
@@ -135,7 +114,7 @@ const faqItems = [
   },
   {
     q: "What motorcycle models are available?",
-    a: "We have a growing library of 50+ motorcycle models from major brands. Pro and Business plans can also upload custom 3D models in GLB/GLTF format. Our team can also create custom models for Enterprise clients.",
+    a: "We currently have 6 motorcycle models with more being added regularly. Pro and Business plans can also upload custom 3D models in GLB/GLTF format. Our team can create custom models for Enterprise clients.",
   },
   {
     q: "Is there a free trial?",
@@ -148,7 +127,7 @@ const faqItems = [
 ];
 
 export default function MarketingPage() {
-  const [demoColor, setDemoColor] = useState<string>("#0066FF");
+  const [demoColor, setDemoColor] = useState<string>("#DC2626");
   const [yearly, setYearly] = useState(false);
 
   const proPrice = yearly ? "$278" : "$29";
@@ -158,599 +137,585 @@ export default function MarketingPage() {
 
   return (
     <>
-      {/* HERO */}
-      <section
-        className="relative min-h-screen pt-24"
-        style={{
-          backgroundImage: `
-            radial-gradient(ellipse 70% 55% at 50% -10%, hsl(var(--primary) / 0.12), transparent 55%),
-            linear-gradient(to right, hsl(var(--border) / 0.35) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--border) / 0.35) 1px, transparent 1px)
-          `,
-          backgroundSize: "100% 100%, 48px 48px, 48px 48px",
-        }}
-      >
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-8">
-          <motion.div
-            className="flex flex-col justify-center lg:col-span-7"
-            initial="hidden"
-            animate="show"
-            variants={sectionReveal}
-          >
-            <motion.div variants={fadeUp}>
+      {/* HERO SECTION */}
+      <section className="relative min-h-screen bg-[#0a0a0a] pt-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid min-h-[calc(100vh-6rem)] items-center gap-12 lg:grid-cols-12">
+            {/* Left Content - 55% */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-7"
+            >
               <Badge
                 variant="outline"
-                className="border-primary/40 animate-glow text-foreground mb-6 rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm"
+                className="mb-8 border-red-500/30 bg-transparent px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-red-500"
               >
-                🚀 Now in Beta — Start Free Today
+                MOTO3D AI — CONFIGURATOR
               </Badge>
-            </motion.div>
-            <motion.h1
-              variants={fadeUp}
-              className="font-display text-5xl font-bold tracking-tight md:text-7xl md:leading-[1.05]"
-            >
-              <span className="block">Configure Any</span>
-              <span className="block">Motorcycle in</span>
-              <span className="block">
-                3D with{" "}
-                <span className="from-primary to-accent bg-gradient-to-r bg-clip-text text-transparent">
-                  AI
+
+              <h1 className="mb-6">
+                <span className="block text-5xl font-light text-white">
+                  The Future of
                 </span>
-              </span>
-            </motion.h1>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mt-6 max-w-lg text-xl leading-relaxed md:text-xl"
-            >
-              Let your customers configure motorcycles in real-time 3D. AI-powered part recommendations, detailed specifications, and seamless website integration.
-            </motion.p>
+                <span className="block text-7xl font-bold text-white">
+                  Motorcycle
+                </span>
+                <span className="block text-7xl font-bold text-red-500">
+                  Configuration
+                </span>
+              </h1>
+
+              <p className="mb-10 max-w-lg text-lg leading-relaxed text-neutral-400">
+                AI-powered 3D configurator for dealerships. Let customers build
+                their dream bike in real-time.
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <Link href="/register">
+                  <Button
+                    size="lg"
+                    className="h-14 bg-red-600 px-8 text-sm uppercase tracking-wide hover:bg-red-700"
+                  >
+                    Start Configuring
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="#demo">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-14 border-white/20 bg-transparent px-8 text-sm uppercase tracking-wide text-white hover:border-white/40 hover:bg-white/5"
+                  >
+                    <Play className="mr-2 h-4 w-4" />
+                    Watch Demo
+                  </Button>
+                </Link>
+              </div>
+
+              <p className="mt-6 text-xs text-neutral-500">
+                No credit card required • Free plan available
+              </p>
+            </motion.div>
+
+            {/* Right 3D Model - 45% */}
             <motion.div
-              variants={fadeUp}
-              className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="lg:col-span-5"
             >
-              <Link
-                href="/register"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "animate-pulse-glow h-12 gap-2 px-8 text-base",
-                )}
-              >
-                Start Free Trial
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#demo"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg" }),
-                  "border-border/80 hover:border-primary/50 h-12 gap-2 px-8 text-base",
-                )}
-              >
-                <Play className="h-5 w-5 fill-current" />
-                Watch Demo
-              </Link>
+              <div className="relative h-[400px] w-full overflow-hidden rounded-lg border border-neutral-800 bg-[#0a0a0a] lg:h-[600px]">
+                <HeroMotorcycle />
+              </div>
             </motion.div>
-            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-4">
-              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="text-base">⚡</span>
-                Real-time 3D
-              </span>
-              <span className="text-muted-foreground">•</span>
-              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="text-base">🤖</span>
-                AI-Powered
-              </span>
-              <span className="text-muted-foreground">•</span>
-              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="text-base">🔌</span>
-                Easy Embed
-              </span>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] as const }}
-            className="relative h-[340px] w-full sm:h-[420px] lg:col-span-5 lg:h-[min(72vh,560px)]"
-          >
-            <div className="from-primary/15 pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-br to-transparent blur-2xl" />
-            <div className="relative h-full w-full overflow-hidden rounded-2xl border border-border/50 bg-[hsl(222.2_84%_5%)] shadow-2xl shadow-primary/10">
-              <HeroMotorcycle />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* BRANDS */}
-      <section className="border-border/50 bg-background/40 relative border-y py-10 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-muted-foreground mb-8 text-center text-sm font-medium">
-            Trusted by leading motorcycle companies
-          </p>
-          <div className="relative overflow-hidden">
-            <div className="animate-marquee flex w-max gap-12 pr-12">
-              {[...brands, ...brands].map((b, i) => (
-                <span
-                  key={`${b}-${i}`}
-                  className="text-muted-foreground shrink-0 text-lg font-semibold tracking-tight opacity-80"
-                >
-                  {b}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section
-        id="features"
-        className="from-background via-card/20 to-background relative scroll-mt-24 bg-gradient-to-b py-24 md:py-32"
-      >
+      {/* FEATURES SECTION */}
+      <section id="features" className="scroll-mt-24 bg-[#0a0a0a] py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-16 text-center"
           >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              <span className="from-primary to-accent bg-gradient-to-r bg-clip-text text-transparent">
-                Everything you need
-              </span>
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
-            >
-              Powerful features to revolutionize motorcycle sales
-            </motion.p>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              FEATURES
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Everything you need to sell
+            </h2>
           </motion.div>
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={sectionReveal}
-            className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {features.map((f) => (
-              <motion.div key={f.title} variants={fadeUp}>
-                <Card className="border-border/50 bg-card/50 group h-full rounded-xl border p-6 backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5">
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, i) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <Card className="group h-full border-neutral-800 bg-[#121212] p-6 transition-all hover:-translate-y-1 hover:border-red-500/20">
                   <CardContent className="p-0">
-                    <div className="bg-primary/10 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full">
-                      <f.icon className="h-6 w-6" />
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+                      <feature.icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-display mb-2 text-lg font-semibold">
-                      {f.title}
+                    <h3 className="mb-2 text-lg font-semibold text-white">
+                      {feature.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {f.body}
+                    <p className="text-sm leading-relaxed text-neutral-400">
+                      {feature.body}
                     </p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
       <section
         id="how-it-works"
-        className="scroll-mt-24 border-border/30 border-t py-24 md:py-32"
+        className="scroll-mt-24 border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-16 text-center"
           >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              How it works
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
-            >
-              Three simple steps to get started
-            </motion.p>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              HOW IT WORKS
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Three steps to get started
+            </h2>
           </motion.div>
 
-          <div className="relative mt-16">
-            <div className="border-primary/20 absolute top-14 left-0 hidden h-px w-full border-t-2 border-dashed lg:block" />
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-40px" }}
-              variants={sectionReveal}
-              className="grid gap-10 lg:grid-cols-3 lg:gap-8"
-            >
-              {[
-                {
-                  n: "01",
-                  t: "Choose Your Model",
-                  d: "Select from our extensive library of motorcycle models or upload your own 3D models.",
-                  icon: Search,
-                },
-                {
-                  n: "02",
-                  t: "Customize with AI",
-                  d: "Use our AI assistant to modify parts, colors, and accessories. Get intelligent suggestions.",
-                  icon: Wand2,
-                },
-                {
-                  n: "03",
-                  t: "Share & Convert",
-                  d: "Generate shareable links, embed on your website, and convert visitors into buyers.",
-                  icon: Share2,
-                },
-              ].map((s) => (
-                <motion.div key={s.n} variants={fadeUp}>
-                  <Card className="border-border/60 bg-card/40 hover:border-primary/30 relative rounded-xl border p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                    <div className="from-primary to-accent mb-4 bg-gradient-to-br bg-clip-text text-5xl font-black text-transparent">
-                      {s.n}
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                n: "01",
+                title: "Choose Your Model",
+                desc: "Select from our library of motorcycle models or upload your own 3D models.",
+                icon: Search,
+              },
+              {
+                n: "02",
+                title: "Customize & Configure",
+                desc: "Use our intuitive interface to set up colors, parts, and pricing for your inventory.",
+                icon: Wand2,
+              },
+              {
+                n: "03",
+                title: "Embed & Launch",
+                desc: "Copy one line of code and paste it into your website. Start selling in minutes.",
+                icon: Code,
+              },
+            ].map((step, i) => (
+              <motion.div
+                key={step.n}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className="relative"
+              >
+                <Card className="h-full border-neutral-800 bg-[#121212] p-8">
+                  <CardContent className="p-0">
+                    <div className="mb-6 text-8xl font-bold text-red-500/10">
+                      {step.n}
                     </div>
-                    <div className="bg-primary/10 text-primary mb-4 inline-flex rounded-lg p-2">
-                      <s.icon className="h-5 w-5" />
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+                      <step.icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-display mb-2 text-xl font-semibold">
-                      {s.t}
+                    <h3 className="mb-3 text-xl font-semibold text-white">
+                      {step.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {s.d}
+                    <p className="text-sm leading-relaxed text-neutral-400">
+                      {step.desc}
                     </p>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
+                  </CardContent>
+                </Card>
+                {i < 2 && (
+                  <div className="absolute right-0 top-1/2 hidden h-px w-8 -translate-y-1/2 translate-x-full bg-red-500/30 md:block" />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* DEMO */}
+      {/* DEMO SECTION */}
       <section
         id="demo"
-        className="from-primary/5 scroll-mt-24 bg-gradient-to-b to-transparent py-24 md:py-32"
+        className="scroll-mt-24 border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-16 text-center"
           >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              See it in action
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
-            >
-              Live preview — paint, materials, and part inspection in the
-              browser.
-            </motion.p>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              SEE IT IN ACTION
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Real-time 3D Configuration
+            </h2>
           </motion.div>
 
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
-            variants={fadeUp}
-            className="mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mx-auto max-w-4xl"
           >
-            <div className="border-border/50 bg-card/60 flex flex-col overflow-hidden rounded-2xl border shadow-xl backdrop-blur-md lg:flex-row">
-              <div className="relative min-h-[300px] flex-1 lg:min-h-[400px]">
+            <div className="overflow-hidden rounded-lg border border-neutral-800 bg-[#121212]">
+              <div className="relative h-[400px] w-full lg:h-[500px]">
                 <DemoMotorcycleGLB color={demoColor} />
               </div>
-              <div className="border-border/50 flex w-full flex-col gap-6 border-t p-6 lg:w-[340px] lg:border-t-0 lg:border-l">
-                <div>
-                  <p className="text-muted-foreground mb-3 text-xs font-semibold uppercase tracking-wider">
-                    Tank color
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    {DEMO_COLORS.map((c) => (
-                      <button
-                        key={c.hex}
-                        type="button"
-                        title={c.label}
-                        aria-label={c.label}
-                        onClick={() => setDemoColor(c.hex)}
-                        className={cn(
-                          "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110",
-                          demoColor === c.hex
-                            ? "border-primary ring-primary ring-2 ring-offset-2 ring-offset-card"
-                            : "border-border",
-                        )}
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    ))}
-                  </div>
+              <div className="border-t border-neutral-800 p-6">
+                <p className="mb-3 text-xs uppercase tracking-wider text-neutral-500">
+                  Choose Color
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {DEMO_COLORS.map((c) => (
+                    <button
+                      key={c.hex}
+                      type="button"
+                      title={c.label}
+                      onClick={() => setDemoColor(c.hex)}
+                      className={cn(
+                        "h-12 w-12 rounded-full border-2 transition-all hover:scale-110",
+                        demoColor === c.hex
+                          ? "border-red-500 ring-2 ring-red-500 ring-offset-2 ring-offset-[#121212]"
+                          : "border-neutral-700 hover:border-neutral-600",
+                      )}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
                 </div>
-                <div className="border-border/50 bg-background/50 flex flex-1 flex-col rounded-xl border p-4">
-                  <p className="text-muted-foreground mb-2 text-xs font-semibold uppercase tracking-wider">
-                    Real-time preview
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    See your color changes applied instantly to the 3D motorcycle model. The real GLB model showcases realistic materials and lighting.
-                  </p>
-                </div>
+                <Link
+                  href="/configurator?demo=true"
+                  className="mt-6 inline-flex items-center text-sm text-red-500 hover:text-red-400"
+                >
+                  Try the full configurator
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </div>
             </div>
-            <p className="text-muted-foreground mt-8 text-center text-sm">
-              This is just a preview. The full configurator has 100x more
-              features.
-            </p>
-            <div className="mt-6 flex justify-center">
-              <Link
-                href="/register"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "animate-pulse-glow gap-2",
-                )}
-              >
-                Unlock the full studio
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US */}
+      <section className="border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-16 text-center"
+          >
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              WHY DEALERSHIPS CHOOSE US
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Built for success
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: Box,
+                title: "Real-time 3D",
+                desc: "Interactive models customers can customize instantly",
+              },
+              {
+                icon: Brain,
+                title: "AI Assistant",
+                desc: "Smart recommendations that increase conversions",
+              },
+              {
+                icon: Code,
+                title: "Easy Embed",
+                desc: "One line of code to add to your website",
+              },
+              {
+                icon: BarChart3,
+                title: "Analytics",
+                desc: "Track configurations and customer interest",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <Card className="h-full border-neutral-800 bg-[#121212] p-6">
+                  <CardContent className="p-0">
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+                      <item.icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mb-2 font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-neutral-400">{item.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* PRICING */}
       <section
         id="pricing"
-        className="scroll-mt-24 py-24 md:py-32"
+        className="scroll-mt-24 border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
-          >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              Simple, transparent pricing
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
-            >
-              Choose the plan that matches your showroom velocity.
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: true }}
             variants={fadeUp}
-            className="mt-12 flex flex-col items-center justify-center gap-3"
+            className="mb-16 text-center"
           >
-            <div className="border-border/60 bg-card/40 flex items-center gap-3 rounded-full border px-4 py-2 backdrop-blur-sm">
-              <span className={cn("text-sm", !yearly && "text-foreground font-semibold")}>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              PRICING
+            </p>
+            <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
+              Simple, transparent pricing
+            </h2>
+            <div className="inline-flex items-center gap-3 rounded-full border border-neutral-800 bg-[#121212] p-1">
+              <button
+                onClick={() => setYearly(false)}
+                className={cn(
+                  "rounded-full px-6 py-2 text-sm font-medium transition-all",
+                  !yearly
+                    ? "bg-red-600 text-white"
+                    : "text-neutral-400 hover:text-white",
+                )}
+              >
                 Monthly
-              </span>
-              <Switch checked={yearly} onCheckedChange={setYearly} />
-              <span className={cn("text-sm flex items-center gap-2", yearly && "text-foreground font-semibold")}>
+              </button>
+              <button
+                onClick={() => setYearly(true)}
+                className={cn(
+                  "rounded-full px-6 py-2 text-sm font-medium transition-all",
+                  yearly
+                    ? "bg-red-600 text-white"
+                    : "text-neutral-400 hover:text-white",
+                )}
+              >
                 Yearly
-                <Badge className="border-accent/50 bg-accent/15 text-accent border text-[10px]">
-                  Save 20%
-                </Badge>
-              </span>
+                <span className="ml-2 text-xs text-green-400">Save 20%</span>
+              </button>
             </div>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
-            variants={sectionReveal}
-            className="mt-16 grid gap-6 lg:grid-cols-4"
-          >
-            <motion.div variants={fadeUp}>
-              <Card className="border-border/60 bg-card/50 flex h-full flex-col rounded-xl border p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg">
-                <h3 className="font-display text-lg font-semibold">Starter</h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  Perfect for trying out the platform
-                </p>
-                <p className="font-display mt-6 text-4xl font-bold">$0</p>
-                <p className="text-muted-foreground text-sm">Free forever</p>
-                <ul className="mt-8 space-y-3 text-sm">
-                  {[
-                    "1 motorcycle model",
-                    "100 views / month",
-                    "Basic AI chat",
-                    "Community support",
-                    "MOTO3D watermark",
-                  ].map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <Check className="text-accent mt-0.5 h-4 w-4 shrink-0" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/register"
-                  className={cn(
-                    buttonVariants({ variant: "outline" }),
-                    "mt-auto w-full",
-                  )}
-                >
-                  Get Started
-                </Link>
+          <div className="grid gap-6 lg:grid-cols-4">
+            {/* Starter */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Card className="h-full border-neutral-800 bg-[#121212] p-6">
+                <CardContent className="p-0">
+                  <h3 className="mb-1 text-xl font-bold text-white">Starter</h3>
+                  <p className="mb-6 text-sm text-neutral-400">
+                    For trying it out
+                  </p>
+                  <p className="mb-6">
+                    <span className="text-4xl font-bold text-white">$0</span>
+                    <span className="text-neutral-400">/mo</span>
+                  </p>
+                  <Link href="/register">
+                    <Button
+                      variant="outline"
+                      className="mb-6 w-full border-neutral-700 hover:border-neutral-600"
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
+                  <ul className="space-y-3 text-sm">
+                    {[
+                      "1 motorcycle model",
+                      "100 views / month",
+                      "Basic customization",
+                      "Community support",
+                    ].map((f) => (
+                      <li key={f} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                        <span className="text-neutral-300">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
               </Card>
             </motion.div>
 
+            {/* Pro */}
             <motion.div
-              variants={fadeUp}
-              className="lg:col-span-1 lg:scale-[1.04] lg:z-10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
             >
-              <Card className="border-primary shadow-primary/20 relative flex h-full flex-col rounded-xl border-2 bg-card/80 p-8 shadow-xl backdrop-blur-md">
-                <Badge className="bg-primary text-primary-foreground absolute -top-3 left-1/2 -translate-x-1/2 border-0">
+              <Card className="relative h-full border-red-500/50 bg-[#121212] p-6">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white">
                   Most Popular
                 </Badge>
-                <h3 className="font-display text-lg font-semibold">
-                  Professional
-                </h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  For growing dealerships
-                </p>
-                <p className="font-display mt-6 text-4xl font-bold">
-                  {proPrice}
-                  <span className="text-muted-foreground text-lg font-medium">
-                    {proPeriod}
-                  </span>
-                </p>
-                <ul className="mt-8 space-y-3 text-sm">
-                  {[
-                    "10 motorcycle models",
-                    "10,000 views / month",
-                    "Full AI features",
-                    "Priority support",
-                    "No watermark",
-                    "Custom branding",
-                    "Basic analytics",
-                  ].map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <Check className="text-accent mt-0.5 h-4 w-4 shrink-0" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/register?plan=pro"
-                  className={cn(
-                    buttonVariants(),
-                    "animate-pulse-glow mt-auto w-full",
-                  )}
-                >
-                  Start Free Trial
-                </Link>
+                <CardContent className="p-0">
+                  <h3 className="mb-1 text-xl font-bold text-white">
+                    Professional
+                  </h3>
+                  <p className="mb-6 text-sm text-neutral-400">
+                    For growing dealerships
+                  </p>
+                  <p className="mb-6">
+                    <span className="text-4xl font-bold text-white">
+                      {proPrice}
+                    </span>
+                    <span className="text-neutral-400">{proPeriod}</span>
+                  </p>
+                  <Link href="/register?plan=pro">
+                    <Button className="mb-6 w-full bg-red-600 hover:bg-red-700">
+                      Start Free Trial
+                    </Button>
+                  </Link>
+                  <ul className="space-y-3 text-sm">
+                    {[
+                      "10 motorcycle models",
+                      "10,000 views / month",
+                      "Full AI features",
+                      "Priority support",
+                      "Custom branding",
+                      "Analytics dashboard",
+                    ].map((f) => (
+                      <li key={f} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                        <span className="text-neutral-300">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
               </Card>
             </motion.div>
 
-            <motion.div variants={fadeUp}>
-              <Card className="border-border/60 bg-card/50 flex h-full flex-col rounded-xl border p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg">
-                <h3 className="font-display text-lg font-semibold">Business</h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  For large operations
-                </p>
-                <p className="font-display mt-6 text-4xl font-bold">
-                  {bizPrice}
-                  <span className="text-muted-foreground text-lg font-medium">
-                    {bizPeriod}
-                  </span>
-                </p>
-                <ul className="mt-8 space-y-3 text-sm">
-                  {[
-                    "Unlimited models",
-                    "Unlimited views",
-                    "Full AI + API access",
-                    "Dedicated support",
-                    "White-label solution",
-                    "Advanced analytics",
-                    "Webhook integrations",
-                    "Team management",
-                  ].map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <Check className="text-accent mt-0.5 h-4 w-4 shrink-0" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/register?plan=business"
-                  className={cn(buttonVariants(), "mt-auto w-full")}
-                >
-                  Start Free Trial
-                </Link>
+            {/* Business */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card className="h-full border-neutral-800 bg-[#121212] p-6">
+                <CardContent className="p-0">
+                  <h3 className="mb-1 text-xl font-bold text-white">Business</h3>
+                  <p className="mb-6 text-sm text-neutral-400">
+                    For multi-location dealers
+                  </p>
+                  <p className="mb-6">
+                    <span className="text-4xl font-bold text-white">
+                      {bizPrice}
+                    </span>
+                    <span className="text-neutral-400">{bizPeriod}</span>
+                  </p>
+                  <Link href="/register?plan=business">
+                    <Button
+                      variant="outline"
+                      className="mb-6 w-full border-neutral-700 hover:border-neutral-600"
+                    >
+                      Start Free Trial
+                    </Button>
+                  </Link>
+                  <ul className="space-y-3 text-sm">
+                    {[
+                      "50 motorcycle models",
+                      "100,000 views / month",
+                      "Advanced AI features",
+                      "Dedicated support",
+                      "White-label option",
+                      "API access",
+                      "Multi-user accounts",
+                    ].map((f) => (
+                      <li key={f} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                        <span className="text-neutral-300">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
               </Card>
             </motion.div>
 
-            <motion.div variants={fadeUp}>
-              <Card className="border-border/60 bg-card/50 flex h-full flex-col rounded-xl border p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg">
-                <h3 className="font-display text-lg font-semibold">Enterprise</h3>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  For manufacturers & large chains
-                </p>
-                <p className="font-display mt-6 text-4xl font-bold">Custom</p>
-                <ul className="mt-8 space-y-3 text-sm">
-                  {[
-                    "Everything in Business",
-                    "Custom AI training",
-                    "On-premise deployment",
-                    "SLA guarantee",
-                    "Custom integrations",
-                    "Dedicated account manager",
-                  ].map((x) => (
-                    <li key={x} className="flex gap-2">
-                      <Check className="text-accent mt-0.5 h-4 w-4 shrink-0" />
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="mailto:sales@moto3d.ai"
-                  className={cn(
-                    buttonVariants({ variant: "outline" }),
-                    "mt-auto w-full",
-                  )}
-                >
-                  Contact Sales
-                </Link>
+            {/* Enterprise */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card className="h-full border-neutral-800 bg-[#121212] p-6">
+                <CardContent className="p-0">
+                  <h3 className="mb-1 text-xl font-bold text-white">
+                    Enterprise
+                  </h3>
+                  <p className="mb-6 text-sm text-neutral-400">
+                    For large organizations
+                  </p>
+                  <p className="mb-6">
+                    <span className="text-4xl font-bold text-white">Custom</span>
+                  </p>
+                  <Link href="mailto:sales@moto3d.ai">
+                    <Button
+                      variant="outline"
+                      className="mb-6 w-full border-neutral-700 hover:border-neutral-600"
+                    >
+                      Contact Sales
+                    </Button>
+                  </Link>
+                  <ul className="space-y-3 text-sm">
+                    {[
+                      "Unlimited models",
+                      "Unlimited views",
+                      "Custom AI training",
+                      "24/7 phone support",
+                      "Custom development",
+                      "SLA guarantee",
+                      "On-premise option",
+                    ].map((f) => (
+                      <li key={f} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                        <span className="text-neutral-300">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
               </Card>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* BUILT FOR DEALERSHIPS */}
-      <section className="from-card/15 border-border/40 border-t py-24 md:py-32">
+      {/* BUILT FOR BUSINESSES */}
+      <section className="border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="mb-16 text-center"
           >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              Built for motorcycle businesses
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
-            >
-              Empower your dealership with cutting-edge 3D technology
-            </motion.p>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              BUILT FOR MOTORCYCLE BUSINESSES
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Empower your dealership
+            </h2>
           </motion.div>
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
-            variants={sectionReveal}
-            className="mt-16 grid gap-6 md:grid-cols-3"
-          >
+
+          <div className="grid gap-6 md:grid-cols-3">
             {[
               {
                 icon: Store,
@@ -767,106 +732,96 @@ export default function MarketingPage() {
                 title: "Competitive Edge",
                 desc: "Stand out from competitors with cutting-edge 3D technology. Show you're a modern, tech-forward dealership.",
               },
-            ].map((item) => (
-              <motion.div key={item.title} variants={fadeUp}>
-                <Card className="border-border/50 bg-card/40 h-full rounded-xl border p-8 backdrop-blur-xl">
-                  <CardContent className="flex h-full flex-col p-0">
-                    <div className="bg-primary/10 text-primary mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full">
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <Card className="h-full border-neutral-800 bg-[#121212] p-8">
+                  <CardContent className="p-0">
+                    <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 text-red-500">
                       <item.icon className="h-7 w-7" />
                     </div>
-                    <h3 className="font-display mb-3 text-xl font-semibold">
+                    <h3 className="mb-3 text-xl font-semibold text-white">
                       {item.title}
                     </h3>
-                    <p className="text-muted-foreground flex-1 text-sm leading-relaxed">
+                    <p className="text-sm leading-relaxed text-neutral-400">
                       {item.desc}
                     </p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
       <section
         id="faq"
-        className="scroll-mt-24 py-24 md:py-32"
+        className="scroll-mt-24 border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32"
       >
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={sectionReveal}
-            className="text-center"
-          >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              Frequently asked questions
-            </motion.h2>
-          </motion.div>
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: true }}
             variants={fadeUp}
-            className="mt-16"
+            className="mb-16 text-center"
           >
-            <Accordion className="space-y-2">
-              {faqItems.map((item, i) => (
-                <AccordionItem
-                  key={item.q}
-                  value={`faq-${i}`}
-                  className="border-border/60 bg-card/30 rounded-xl border px-4"
-                >
-                  <AccordionTrigger className="text-left text-base hover:no-underline">
-                    {item.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4 text-sm leading-relaxed">
-                    {item.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-red-500">
+              FAQ
+            </p>
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
+              Frequently asked questions
+            </h2>
           </motion.div>
+
+          <Accordion className="space-y-4">
+            {faqItems.map((item, i) => (
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="border-neutral-800 bg-[#121212] px-6"
+              >
+                <AccordionTrigger className="text-left text-white hover:text-red-500 hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-neutral-400">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="from-primary/20 via-[hsl(260_40%_12%)] to-accent/15 absolute inset-0 bg-gradient-to-br" />
-        <div className="animate-float pointer-events-none absolute top-10 left-[10%] h-24 w-24 rounded-2xl border border-white/10 bg-white/5 blur-sm" />
-        <div className="animate-spin-slow pointer-events-none absolute right-[15%] bottom-16 h-32 w-32 rounded-full border border-primary/20 bg-primary/5 blur-md" />
-        <div className="animate-float pointer-events-none absolute top-1/3 right-1/4 h-16 w-40 -rotate-12 rounded-full border border-accent/20 bg-accent/5" />
-
-        <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-t border-neutral-800 bg-[#0a0a0a] py-24 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/20 via-transparent to-transparent" />
+        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={sectionReveal}
+            viewport={{ once: true }}
+            variants={fadeUp}
           >
-            <motion.h2
-              variants={fadeUp}
-              className="font-display text-3xl font-bold md:text-5xl"
-            >
-              Ready to revolutionize your motorcycle sales?
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg"
-            >
+            <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
+              Ready to transform your showroom?
+            </h2>
+            <p className="mb-10 text-lg text-neutral-400">
               Be among the first dealerships to use AI-powered 3D configuration
-            </motion.p>
-            <motion.form
-              variants={fadeUp}
-              className="mx-auto mt-8 flex max-w-md gap-3"
+            </p>
+            <form
+              className="mx-auto flex max-w-md gap-3"
               onSubmit={(e) => {
                 e.preventDefault();
-                const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement)?.value;
+                const email = (
+                  e.currentTarget.elements.namedItem("email") as HTMLInputElement
+                )?.value;
                 if (email) {
                   window.location.href = `/register?email=${encodeURIComponent(email)}`;
                 }
@@ -877,18 +832,19 @@ export default function MarketingPage() {
                 name="email"
                 placeholder="Enter your email"
                 required
-                className="border-border bg-background/80 text-foreground focus-visible:ring-primary flex-1 rounded-lg border px-4 py-3 text-sm outline-none focus-visible:ring-2"
+                className="flex-1 rounded-lg border border-neutral-700 bg-[#121212] px-4 py-3 text-sm text-white outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
               />
-              <Button type="submit" size="lg" className="animate-pulse-glow shrink-0 px-8">
-                Get Started Free
+              <Button
+                type="submit"
+                size="lg"
+                className="shrink-0 bg-red-600 px-8 hover:bg-red-700"
+              >
+                Get Started
               </Button>
-            </motion.form>
-            <motion.p
-              variants={fadeUp}
-              className="text-muted-foreground mt-6 text-sm"
-            >
-              No credit card required · Free plan available · Setup in 5 minutes
-            </motion.p>
+            </form>
+            <p className="mt-6 text-xs text-neutral-500">
+              No credit card required • Free plan • Setup in 5 minutes
+            </p>
           </motion.div>
         </div>
       </section>
