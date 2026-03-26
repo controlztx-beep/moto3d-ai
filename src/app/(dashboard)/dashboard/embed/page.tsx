@@ -1,6 +1,10 @@
 "use client";
 
 import * as React from "react";
+
+if (typeof window !== 'undefined') {
+  document.title = "Embed Widget | MOTO3D AI";
+}
 import { Copy, RefreshCcw } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";

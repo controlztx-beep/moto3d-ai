@@ -18,39 +18,32 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "MOTO3D AI - AI-Powered 3D Motorcycle Configurator",
-  description:
-    "The most advanced AI-powered 3D motorcycle configurator for dealerships and OEMs. Real-time WebGL configuration, intelligent recommendations, and seamless web integration.",
-  keywords: [
-    "motorcycle configurator",
-    "3D motorcycle",
-    "AI dealership",
-    "WebGL",
-    "motorcycle sales",
-    "MOTO3D",
-    "Three.js",
-    "embeddable configurator",
-  ],
-  authors: [{ name: "MOTO3D AI" }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://moto3d.vercel.app'),
+  title: {
+    default: 'MOTO3D AI - AI-Powered 3D Motorcycle Configurator',
+    template: '%s | MOTO3D AI'
+  },
+  description: 'The most advanced AI-powered 3D motorcycle configurator. Let your customers build their dream bike with intelligent recommendations, real-time 3D visualization, and detailed part specifications.',
+  keywords: ['motorcycle configurator', '3D motorcycle', 'AI motorcycle', 'bike customization', 'motorcycle parts', 'SaaS', 'B2B motorcycle', 'configurateur moto', 'moto 3D'],
+  authors: [{ name: 'MOTO3D AI' }],
+  creator: 'MOTO3D AI',
   openGraph: {
-    title: "MOTO3D AI - AI-Powered 3D Motorcycle Configurator",
-    description:
-      "Configure any motorcycle in 3D with AI. Built for dealerships, manufacturers, and riders.",
-    url: "https://moto3d.ai",
-    siteName: "MOTO3D AI",
-    locale: "en_US",
-    type: "website",
+    type: 'website',
+    locale: 'en_US',
+    url: '/',
+    siteName: 'MOTO3D AI',
+    title: 'MOTO3D AI - AI-Powered 3D Motorcycle Configurator',
+    description: 'Configure any motorcycle in 3D with AI. Real-time visualization, intelligent recommendations, detailed specifications.',
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'MOTO3D AI' }]
   },
   twitter: {
-    card: "summary_large_image",
-    title: "MOTO3D AI - AI-Powered 3D Motorcycle Configurator",
-    description:
-      "Configure any motorcycle in 3D with AI. Real-time rendering and smart recommendations.",
+    card: 'summary_large_image',
+    title: 'MOTO3D AI - AI-Powered 3D Motorcycle Configurator',
+    description: 'Configure any motorcycle in 3D with AI assistance.',
+    images: ['/api/og']
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
+  icons: { icon: '/favicon.ico' }
 };
 
 export default function RootLayout({

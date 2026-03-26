@@ -1,7 +1,12 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { Loader2 } from "lucide-react";
 
 import { LoginForm } from "./login-form";
+
+export const metadata: Metadata = {
+  title: "Log In",
+};
 
 function LoginFallback() {
   return (

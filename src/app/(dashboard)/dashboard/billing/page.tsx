@@ -3,6 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
+if (typeof window !== 'undefined') {
+  document.title = "Billing | MOTO3D AI";
+}
 import { Check, Loader2, AlertCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";

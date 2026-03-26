@@ -3,6 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+if (typeof window !== 'undefined') {
+  document.title = "My Configurations | MOTO3D AI";
+}
 import {
   FolderOpen,
   LayoutGrid,

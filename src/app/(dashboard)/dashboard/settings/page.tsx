@@ -2,6 +2,10 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+
+if (typeof window !== 'undefined') {
+  document.title = "Settings | MOTO3D AI";
+}
 import { Camera, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 

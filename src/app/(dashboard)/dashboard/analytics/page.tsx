@@ -1,6 +1,10 @@
 "use client";
 
 import * as React from "react";
+
+if (typeof window !== 'undefined') {
+  document.title = "Analytics | MOTO3D AI";
+}
 import {
   Bar,
   BarChart,

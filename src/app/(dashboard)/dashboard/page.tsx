@@ -3,6 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+if (typeof window !== 'undefined') {
+  document.title = "Dashboard | MOTO3D AI";
+}
 import {
   BarChart3,
   Bike,
