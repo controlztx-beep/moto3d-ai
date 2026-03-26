@@ -32,7 +32,6 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { DemoMaterialMode } from "@/components/3d/DemoMotorcycle";
 import { cn } from "@/lib/utils";
 
 const HeroMotorcycle = dynamic(
@@ -43,10 +42,10 @@ const HeroMotorcycle = dynamic(
   { ssr: false },
 );
 
-const DemoMotorcycle = dynamic(
+const DemoMotorcycleGLB = dynamic(
   () =>
-    import("@/components/3d/DemoMotorcycle").then((m) => ({
-      default: m.DemoMotorcycle,
+    import("@/components/3d/DemoMotorcycleGLB").then((m) => ({
+      default: m.DemoMotorcycleGLB,
     })),
   { ssr: false },
 );
@@ -124,37 +123,6 @@ const DEMO_COLORS = [
   { hex: "#FF8800", label: "Orange" },
 ] as const;
 
-const DEMO_PART_INFO: Record<
-  string,
-  { title: string; specs: string; price: string }
-> = {
-  tank: {
-    title: "Carbon composite tank",
-    specs: "12L · UV clearcoat · OEM fit",
-    price: "$419",
-  },
-  engine: {
-    title: "Twin-cylinder powertrain",
-    specs: "120hp · Ride-by-wire · Euro 6",
-    price: "Series",
-  },
-  "front-wheel": {
-    title: "Forged front wheel",
-    specs: '17" · ABS tone ring · Tubeless',
-    price: "$289",
-  },
-  "rear-wheel": {
-    title: "Rear alloy wheel",
-    specs: "180 section · Quick-release hub",
-    price: "$309",
-  },
-  exhaust: {
-    title: "Titanium exhaust system",
-    specs: "Ceramic-coated tip · Race map-ready",
-    price: "$899",
-  },
-};
-
 const brands = [
   "RevMoto Labs",
   "Atlas Ride Co.",
@@ -228,16 +196,12 @@ const faqItems = [
 
 export default function MarketingPage() {
   const [demoColor, setDemoColor] = useState<string>("#0066FF");
-  const [demoMat, setDemoMat] = useState<DemoMaterialMode>("glossy");
-  const [demoHover, setDemoHover] = useState<string | null>(null);
   const [yearly, setYearly] = useState(false);
 
   const proPrice = yearly ? "$278" : "$29";
   const proPeriod = yearly ? "/yr" : "/mo";
   const bizPrice = yearly ? "$758" : "$79";
   const bizPeriod = yearly ? "/yr" : "/mo";
-
-  const panel = demoHover ? DEMO_PART_INFO[demoHover] : null;
 
   return (
     <>
@@ -536,11 +500,7 @@ export default function MarketingPage() {
           >
             <div className="border-border/50 bg-card/60 flex flex-col overflow-hidden rounded-2xl border shadow-xl backdrop-blur-md lg:flex-row">
               <div className="relative min-h-[300px] flex-1 lg:min-h-[400px]">
-                <DemoMotorcycle
-                  tankColor={demoColor}
-                  materialMode={demoMat}
-                  onHoverPart={setDemoHover}
-                />
+                <DemoMotorcycleGLB color={demoColor} />
               </div>
               <div className="border-border/50 flex w-full flex-col gap-6 border-t p-6 lg:w-[340px] lg:border-t-0 lg:border-l">
                 <div>
@@ -566,48 +526,13 @@ export default function MarketingPage() {
                     ))}
                   </div>
                 </div>
-                <div>
-                  <p className="text-muted-foreground mb-3 text-xs font-semibold uppercase tracking-wider">
-                    Finish
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {(
-                      ["matte", "glossy", "metallic"] as DemoMaterialMode[]
-                    ).map((m) => (
-                      <Button
-                        key={m}
-                        type="button"
-                        variant={demoMat === m ? "default" : "outline"}
-                        size="sm"
-                        className="capitalize"
-                        onClick={() => setDemoMat(m)}
-                      >
-                        {m}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
                 <div className="border-border/50 bg-background/50 flex flex-1 flex-col rounded-xl border p-4">
                   <p className="text-muted-foreground mb-2 text-xs font-semibold uppercase tracking-wider">
-                    Part inspector
+                    Real-time preview
                   </p>
-                  {panel ? (
-                    <>
-                      <p className="font-display text-lg font-semibold">
-                        {panel.title}
-                      </p>
-                      <p className="text-muted-foreground mt-2 text-sm">
-                        {panel.specs}
-                      </p>
-                      <p className="text-accent mt-3 text-sm font-bold">
-                        {panel.price}
-                      </p>
-                    </>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">
-                      Hover a part on the model to see specifications.
-                    </p>
-                  )}
+                  <p className="text-muted-foreground text-sm">
+                    See your color changes applied instantly to the 3D motorcycle model. The real GLB model showcases realistic materials and lighting.
+                  </p>
                 </div>
               </div>
             </div>

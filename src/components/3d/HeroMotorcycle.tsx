@@ -9,12 +9,11 @@ import {
   Environment,
   Float,
   OrbitControls,
+  useGLTF,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 
 const BLUE = "#0066FF";
-const DARK = "#1a1a24";
-const ORANGE_TIP = "#ff4400";
 
 function Particles() {
   const groupRef = useRef<THREE.Group>(null);
@@ -70,6 +69,7 @@ function Particles() {
 
 function MotorcycleModel() {
   const groupRef = useRef<THREE.Group>(null);
+  const { scene } = useGLTF('/models/Motorcycle.glb');
 
   useFrame((_, delta) => {
     if (groupRef.current) {
@@ -77,114 +77,51 @@ function MotorcycleModel() {
     }
   });
 
-  const metal = {
-    metalness: 0.8,
-    roughness: 0.2,
-  } as const;
+  // Clone and apply stylish blue metallic material
+  const styledScene = useMemo(() => {
+    const clone = scene.clone(true);
+    
+    clone.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        
+        // Clone material and apply blue metallic look
+        if (child.material) {
+          child.material = (child.material as THREE.MeshStandardMaterial).clone();
+          const mat = child.material as THREE.MeshStandardMaterial;
+          mat.color.set(BLUE);
+          mat.emissive.set(BLUE);
+          mat.emissiveIntensity = 0.25;
+          mat.metalness = 0.85;
+          mat.roughness = 0.15;
+        }
+      }
+    });
+    
+    return clone;
+  }, [scene]);
+
+  // Calculate bounds to center and scale
+  const { center, scale } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(styledScene);
+    const size = box.getSize(new THREE.Vector3());
+    const centerVec = box.getCenter(new THREE.Vector3());
+    
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const targetSize = 2.5;
+    const scaleVal = maxDim > 0 ? targetSize / maxDim : 1;
+    
+    return { center: centerVec, scale: scaleVal };
+  }, [styledScene]);
 
   return (
     <group ref={groupRef} position={[0, 0.2, 0]}>
-      <mesh position={[0, 0.55, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.06, 0.06, 2.4, 12]} />
-        <meshStandardMaterial
-          color={BLUE}
-          emissive={BLUE}
-          emissiveIntensity={0.35}
-          {...metal}
-        />
-      </mesh>
-      <mesh position={[-0.12, 0.52, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.04, 0.04, 2.35, 10]} />
-        <meshStandardMaterial
-          color={BLUE}
-          emissive={BLUE}
-          emissiveIntensity={0.25}
-          {...metal}
-        />
-      </mesh>
-      <mesh position={[0.12, 0.52, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.04, 0.04, 2.35, 10]} />
-        <meshStandardMaterial
-          color={BLUE}
-          emissive={BLUE}
-          emissiveIntensity={0.25}
-          {...metal}
-        />
-      </mesh>
-
-      <mesh position={[0, 0.35, 1.15]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1, 0.15, 16, 32]} />
-        <meshStandardMaterial color="#222230" {...metal} />
-      </mesh>
-      <mesh position={[0, 0.35, -1.15]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1, 0.15, 16, 32]} />
-        <meshStandardMaterial color="#222230" {...metal} />
-      </mesh>
-
-      <group position={[0, 0.45, -0.15]}>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.45, 0.35, 0.5]} />
-          <meshStandardMaterial
-            color={DARK}
-            emissive={BLUE}
-            emissiveIntensity={0.12}
-            {...metal}
-          />
-        </mesh>
-        <mesh position={[0.22, -0.05, 0.1]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.08, 0.08, 0.2, 10]} />
-          <meshStandardMaterial color="#2a2a38" {...metal} />
-        </mesh>
-        <mesh position={[-0.22, -0.05, 0.05]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.07, 0.07, 0.18, 10]} />
-          <meshStandardMaterial color="#2a2a38" {...metal} />
-        </mesh>
-      </group>
-
-      <mesh position={[0, 0.95, 0.35]} scale={[0.55, 0.42, 0.95]}>
-        <sphereGeometry args={[0.75, 24, 24]} />
-        <meshStandardMaterial
-          color="#0044cc"
-          emissive={BLUE}
-          emissiveIntensity={0.08}
-          metalness={0.55}
-          roughness={0.18}
-        />
-      </mesh>
-
-      <mesh position={[0, 0.88, -0.55]}>
-        <boxGeometry args={[0.35, 0.12, 0.55]} />
-        <meshStandardMaterial color="#0d0d14" roughness={0.65} metalness={0.15} />
-      </mesh>
-
-      <mesh position={[0, 1.05, 0.95]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.02, 0.02, 1.15, 8]} />
-        <meshStandardMaterial color="#3a3a48" {...metal} />
-      </mesh>
-
-      <mesh position={[-0.15, 0.72, 1.05]} rotation={[Math.PI / 2.3, 0, 0]}>
-        <cylinderGeometry args={[0.025, 0.025, 0.55, 8]} />
-        <meshStandardMaterial color="#4a4a5a" {...metal} />
-      </mesh>
-      <mesh position={[0.15, 0.72, 1.05]} rotation={[-Math.PI / 2.3, 0, 0]}>
-        <cylinderGeometry args={[0.025, 0.025, 0.55, 8]} />
-        <meshStandardMaterial color="#4a4a5a" {...metal} />
-      </mesh>
-
-      <mesh position={[0.32, 0.42, -0.4]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.04, 0.05, 1.2, 10]} />
-        <meshStandardMaterial color="#33303a" {...metal} />
-      </mesh>
-      <mesh position={[0.78, 0.42, -0.95]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.045, 0.04, 0.12, 8]} />
-        <meshStandardMaterial
-          color={ORANGE_TIP}
-          emissive={ORANGE_TIP}
-          emissiveIntensity={1.2}
-          metalness={0.4}
-          roughness={0.35}
-        />
-      </mesh>
+      <primitive 
+        object={styledScene}
+        scale={scale}
+        position={[-center.x * scale, -center.y * scale, -center.z * scale]}
+      />
     </group>
   );
 }
@@ -219,7 +156,7 @@ function Scene() {
 export function HeroMotorcycle() {
   return (
     <Canvas
-      camera={{ position: [5, 3, 5], fov: 45 }}
+      camera={{ position: [4.5, 2.5, 4.5], fov: 50 }}
       style={{ height: "100%", width: "100%" }}
       gl={{ antialias: true, alpha: true }}
       dpr={[1, 2]}
@@ -230,3 +167,6 @@ export function HeroMotorcycle() {
     </Canvas>
   );
 }
+
+// Preload the model
+useGLTF.preload('/models/Motorcycle.glb');
