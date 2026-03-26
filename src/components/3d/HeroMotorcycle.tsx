@@ -20,7 +20,7 @@ function Particles() {
   const groupRef = useRef<THREE.Group>(null);
   const data = useMemo(
     () =>
-      Array.from({ length: 100 }, () => ({
+      Array.from({ length: 40 }, () => ({
         base: new THREE.Vector3(
           (Math.random() - 0.5) * 6,
           (Math.random() - 0.5) * 5 + 0.5,
@@ -39,11 +39,11 @@ function Particles() {
     g.children.forEach((child, i) => {
       const mesh = child as THREE.Mesh;
       const d = data[i];
-      const amp = 0.12;
+      const amp = 0.08;
       mesh.position.set(
-        d.base.x + Math.sin(t * 0.6 + d.phase) * amp,
-        d.base.y + Math.cos(t * 0.5 + d.phase * 1.3) * amp,
-        d.base.z + Math.sin(t * 0.4 + d.phase * 0.7) * amp,
+        d.base.x + Math.sin(t * 0.3 + d.phase) * amp,
+        d.base.y + Math.cos(t * 0.25 + d.phase * 1.3) * amp,
+        d.base.z + Math.sin(t * 0.2 + d.phase * 0.7) * amp,
       );
     });
   });
@@ -52,13 +52,15 @@ function Particles() {
     <group ref={groupRef}>
       {data.map((d, i) => (
         <mesh key={i} position={d.base}>
-          <sphereGeometry args={[0.02, 6, 6]} />
+          <sphereGeometry args={[0.015, 6, 6]} />
           <meshStandardMaterial
             color={d.color}
             emissive={d.color}
-            emissiveIntensity={0.85}
+            emissiveIntensity={0.3}
             metalness={0.2}
             roughness={0.35}
+            opacity={0.4}
+            transparent
           />
         </mesh>
       ))}

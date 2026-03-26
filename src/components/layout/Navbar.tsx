@@ -27,11 +27,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-const nav = [
+const nav: Array<{ label: string; id?: string; href?: string }> = [
   { label: "Features", id: "features" },
   { label: "How it Works", id: "how-it-works" },
   { label: "Pricing", id: "pricing" },
-  { label: "Docs", id: "faq" },
+  { label: "Demo", href: "/configurator?demo=true" },
 ];
 
 function scrollToSection(id: string) {
@@ -118,14 +118,24 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           {nav.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-300"
-              onClick={() => scrollToSection(item.id)}
-            >
-              {item.label}
-            </button>
+            item.href ? (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-300"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <button
+                key={item.id}
+                type="button"
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors duration-300"
+                onClick={() => scrollToSection(item.id!)}
+              >
+                {item.label}
+              </button>
+            )
           ))}
         </div>
 
@@ -212,17 +222,28 @@ export function Navbar() {
               </SheetHeader>
               <div className="mt-6 flex flex-col gap-1">
                 {nav.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="hover:bg-muted/50 rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors"
-                    onClick={() => {
-                      scrollToSection(item.id);
-                      setOpen(false);
-                    }}
-                  >
-                    {item.label}
-                  </button>
+                  item.href ? (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="hover:bg-muted/50 rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors"
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="hover:bg-muted/50 rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors"
+                      onClick={() => {
+                        scrollToSection(item.id!);
+                        setOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  )
                 ))}
                 <Link
                   href="/login"

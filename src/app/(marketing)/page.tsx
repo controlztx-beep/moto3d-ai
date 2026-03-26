@@ -285,9 +285,7 @@ export default function MarketingPage() {
               variants={fadeUp}
               className="text-muted-foreground mt-6 max-w-lg text-xl leading-relaxed md:text-xl"
             >
-              The most advanced AI-powered 3D motorcycle configurator. Let your
-              customers build their dream bike with intelligent recommendations
-              and stunning visuals.
+              Let your customers configure motorcycles in real-time 3D. AI-powered part recommendations, detailed specifications, and seamless website integration.
             </motion.p>
             <motion.div
               variants={fadeUp}
@@ -314,26 +312,21 @@ export default function MarketingPage() {
                 Watch Demo
               </Link>
             </motion.div>
-            <motion.div variants={fadeUp} className="mt-12 space-y-4">
-              <p className="text-muted-foreground text-sm font-medium">
-                Trusted by 200+ dealerships worldwide
-              </p>
-              <div className="text-muted-foreground flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-wide">
-                {[
-                  "Honda Dealer",
-                  "BMW Moto",
-                  "Ducati ME",
-                  "KTM Pro",
-                  "Yamaha Hub",
-                ].map((t) => (
-                  <span
-                    key={t}
-                    className="border-border/60 bg-card/40 rounded-lg border px-3 py-2"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-4">
+              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="text-base">⚡</span>
+                Real-time 3D
+              </span>
+              <span className="text-muted-foreground">•</span>
+              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="text-base">🤖</span>
+                AI-Powered
+              </span>
+              <span className="text-muted-foreground">•</span>
+              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="text-base">🔌</span>
+                Easy Embed
+              </span>
             </motion.div>
           </motion.div>
 
