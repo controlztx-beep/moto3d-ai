@@ -14,6 +14,7 @@ import { PartDetails } from "@/components/configurator/PartDetails";
 import { PartsCatalog } from "@/components/configurator/PartsCatalog";
 import { ShareModal } from "@/components/configurator/ShareModal";
 import { TopBar } from "@/components/configurator/TopBar";
+import { WelcomeModal } from "@/components/configurator/WelcomeModal";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -430,6 +431,7 @@ function ConfiguratorPageContent() {
   return (
     <TooltipProvider delay={200}>
       <div className="flex h-screen flex-col overflow-hidden bg-background">
+        <WelcomeModal />
         {showDemoBanner && isDemoMode && (
           <div className="relative z-50 flex items-center justify-between gap-4 border-b border-yellow-500/50 bg-yellow-500/10 px-4 py-3">
             <div className="flex items-center gap-3">

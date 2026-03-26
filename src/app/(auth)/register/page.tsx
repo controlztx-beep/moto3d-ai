@@ -85,6 +85,8 @@ function passwordStrength(password: string) {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const [planParam, setPlanParam] = useState<string | null>(null);
+  
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,7 +98,17 @@ export default function RegisterPage() {
 
   useEffect(() => {
     document.title = "Create Account | MOTO3D AI";
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setPlanParam(params.get('plan'));
+    }
   }, []);
+
+  const planName = useMemo(() => {
+    if (planParam === 'pro') return 'Professional';
+    if (planParam === 'business') return 'Business';
+    return null;
+  }, [planParam]);
 
   const strength = useMemo(() => passwordStrength(password), [password]);
 
@@ -140,6 +152,9 @@ export default function RegisterPage() {
         toast.error(error.message);
         return;
       }
+      if (planParam && typeof window !== 'undefined') {
+        localStorage.setItem('moto3d_intended_plan', planParam);
+      }
       toast.success("Account created! Check your email to verify.");
       router.push("/login");
     } finally {
@@ -156,6 +171,13 @@ export default function RegisterPage() {
         <CardDescription>
           Start configuring motorcycles in 3D
         </CardDescription>
+        {planName && (
+          <div className="mt-3 rounded-lg border border-primary/50 bg-primary/10 px-3 py-2">
+            <p className="text-sm font-medium text-primary">
+              🎉 You selected the {planName} plan. Start your free trial!
+            </p>
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <form onSubmit={handleRegister} className="space-y-5">

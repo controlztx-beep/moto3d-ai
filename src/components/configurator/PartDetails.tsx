@@ -159,14 +159,75 @@ export function PartDetails() {
   );
 
   if (!selectedPartData) {
+    const currentMotorcycle = motorcycles.find((m) => m.id === selectedMotorcycleId);
+    
+    if (!currentMotorcycle) {
+      return (
+        <div className="flex h-full flex-col items-center justify-center gap-3 p-4 text-center text-muted-foreground">
+          <Crosshair className="size-10 opacity-50" />
+          <p className="text-sm">Select a motorcycle to begin</p>
+        </div>
+      );
+    }
+
+    const specs = (currentMotorcycle.specifications as Record<string, unknown>) || {};
+    const specEntries = Object.entries(specs).filter(([, v]) => v != null);
+
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 p-4 text-center text-muted-foreground">
-        <Crosshair className="size-10 opacity-50" />
-        <div>
-          <h2 className="font-semibold text-foreground text-lg">Select a Part</h2>
-          <p className="mt-1 max-w-[16rem] text-sm">
-            Click on the 3D model or browse the parts catalog
-          </p>
+      <div className="flex h-full flex-col overflow-hidden">
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="mb-4">
+            <h2 className="font-display text-2xl font-bold text-foreground">
+              {currentMotorcycle.brand}
+            </h2>
+            <h3 className="font-display text-xl text-foreground">
+              {currentMotorcycle.name}
+            </h3>
+            <Badge className="mt-2" variant="secondary">
+              {currentMotorcycle.category}
+            </Badge>
+          </div>
+
+          {currentMotorcycle.description && (
+            <>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                {currentMotorcycle.description}
+              </p>
+              <Separator className="my-4" />
+            </>
+          )}
+
+          {specEntries.length > 0 && (
+            <>
+              <h4 className="mb-3 font-semibold text-sm">Specifications</h4>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {specEntries.map(([key, value]) => (
+                  <div key={key} className="rounded-lg border border-border/50 bg-muted/30 p-3">
+                    <div className="text-xs text-muted-foreground capitalize">
+                      {formatSpecKey(key)}
+                    </div>
+                    <div className="mt-1 font-medium text-sm">{String(value)}</div>
+                  </div>
+                ))}
+              </div>
+              <Separator className="my-4" />
+            </>
+          )}
+
+          <div className="rounded-lg border border-border/50 bg-muted/30 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <DollarSign className="size-4 text-primary" />
+              <span className="text-xs text-muted-foreground">Base Price</span>
+            </div>
+            <div className="font-display text-2xl font-bold">
+              ${currentMotorcycle.base_price.toLocaleString("en-US")}
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 rounded-lg border border-border/50 bg-muted/20 p-3 text-xs text-muted-foreground">
+            <Crosshair className="size-4 shrink-0" />
+            <p>Select a part from the catalog or click on the 3D model to see details</p>
+          </div>
         </div>
       </div>
     );

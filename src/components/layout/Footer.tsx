@@ -43,17 +43,17 @@ function SocialIconYouTube({ className }: { className?: string }) {
 const product = [
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Configurator", href: "/configurator" },
-  { label: "API Docs", href: "/#faq" },
-  { label: "Changelog", href: "/#pricing" },
+  { label: "Configurator", href: "/configurator?demo=true" },
+  { label: "Log In", href: "/login" },
+  { label: "Sign Up", href: "/register" },
 ];
 
 const company = [
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Contact", href: "mailto:contact@moto3d.ai" },
   { label: "About", href: "#" },
   { label: "Blog", href: "#" },
   { label: "Careers", href: "#" },
-  { label: "Contact", href: "#" },
-  { label: "Partners", href: "#" },
 ];
 
 const legal = [
@@ -87,6 +87,8 @@ export function Footer() {
             <div className="flex gap-3 pt-2">
               <a
                 href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
                 aria-label="GitHub"
               >
@@ -94,6 +96,8 @@ export function Footer() {
               </a>
               <a
                 href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
                 aria-label="X"
               >
@@ -101,6 +105,8 @@ export function Footer() {
               </a>
               <a
                 href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
                 aria-label="LinkedIn"
               >
@@ -108,6 +114,8 @@ export function Footer() {
               </a>
               <a
                 href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary border-border hover:border-primary/50 rounded-lg border p-2 transition-colors"
                 aria-label="YouTube"
               >
