@@ -98,9 +98,18 @@ export default function RegisterPage() {
 
   useEffect(() => {
     document.title = "Create Account | MOTO3D AI";
+    
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      setPlanParam(params.get('plan'));
+      const plan = params.get('plan');
+      const emailParam = params.get('email');
+      
+      if (plan) {
+        setPlanParam(plan);
+      }
+      if (emailParam) {
+        setEmail(decodeURIComponent(emailParam));
+      }
     }
   }, []);
 

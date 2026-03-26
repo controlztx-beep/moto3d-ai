@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -16,8 +16,10 @@ import {
   Search,
   Share2,
   Smartphone,
-  Star,
+  Store,
+  Target,
   Wand2,
+  Zap,
 } from "lucide-react";
 
 import {
@@ -31,7 +33,6 @@ import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 const HeroMotorcycle = dynamic(
@@ -58,61 +59,13 @@ const sectionReveal = {
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
-
-function AnimatedInt({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const visible = useInView(ref, { once: true, margin: "-60px" });
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!visible) return;
-    const c = animate(0, value, {
-      duration: 2.1,
-      ease: "easeOut",
-      onUpdate: (v) => setN(Math.floor(v)),
-    });
-    return () => c.stop();
-  }, [visible, value]);
-  return (
-    <span ref={ref}>
-      {n}
-      {suffix}
-    </span>
-  );
-}
-
-function AnimatedDecimal({
-  value,
-  suffix = "",
-}: {
-  value: number;
-  suffix?: string;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const visible = useInView(ref, { once: true, margin: "-60px" });
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!visible) return;
-    const c = animate(0, value, {
-      duration: 2.1,
-      ease: "easeOut",
-      onUpdate: (v) => setN(Number(v.toFixed(1))),
-    });
-    return () => c.stop();
-  }, [visible, value]);
-  return (
-    <span ref={ref}>
-      {n}
-      {suffix}
-    </span>
-  );
-}
 
 const DEMO_COLORS = [
   { hex: "#FF3333", label: "Red" },
@@ -556,71 +509,6 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="bg-[hsl(222.2_45%_6%)] py-24 md:py-32">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={sectionReveal}
-            className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-6"
-          >
-            {[
-              {
-                node: (
-                  <>
-                    <AnimatedInt value={50} suffix="+" />
-                  </>
-                ),
-                label: "Motorcycle Models",
-              },
-              {
-                node: (
-                  <>
-                    <AnimatedInt value={10000} suffix="+" />
-                  </>
-                ),
-                label: "Parts Database",
-              },
-              {
-                node: (
-                  <>
-                    <AnimatedInt value={200} suffix="+" />
-                  </>
-                ),
-                label: "Dealerships",
-              },
-              {
-                node: (
-                  <>
-                    <AnimatedDecimal value={99.9} suffix="%" />
-                  </>
-                ),
-                label: "Uptime",
-              },
-            ].map((s, i) => (
-              <motion.div
-                key={s.label}
-                variants={fadeUp}
-                className={cn(
-                  "text-center",
-                  i > 0 &&
-                    "border-border/50 md:border-primary/25 md:border-l md:pl-8",
-                )}
-              >
-                <div className="from-primary to-accent bg-gradient-to-r bg-clip-text font-display text-4xl font-bold text-transparent md:text-5xl">
-                  {s.node}
-                </div>
-                <p className="text-muted-foreground mt-2 text-sm font-medium">
-                  {s.label}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* PRICING */}
       <section
         id="pricing"
@@ -833,7 +721,7 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* BUILT FOR DEALERSHIPS */}
       <section className="from-card/15 border-border/40 border-t py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -847,8 +735,14 @@ export default function MarketingPage() {
               variants={fadeUp}
               className="font-display text-3xl font-bold md:text-5xl"
             >
-              Loved by dealerships worldwide
+              Built for motorcycle businesses
             </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg"
+            >
+              Empower your dealership with cutting-edge 3D technology
+            </motion.p>
           </motion.div>
           <motion.div
             initial="hidden"
@@ -859,54 +753,33 @@ export default function MarketingPage() {
           >
             {[
               {
-                quote:
-                  "MOTO3D AI transformed our online sales. Customers spend 3x more time on our site and conversion rate increased by 40%.",
-                name: "Ahmed Benali",
-                role: "CEO at MarocMoto",
-                initials: "AB",
+                icon: Store,
+                title: "Online Showroom",
+                desc: "Let customers configure bikes 24/7 on your website. No physical inventory needed for every color and configuration.",
               },
               {
-                quote:
-                  "The AI recommendations are incredibly accurate. It's like having a motorcycle expert available 24/7 for every customer.",
-                name: "Sarah Mitchell",
-                role: "Digital Manager at EuroSpeed",
-                initials: "SM",
+                icon: Target,
+                title: "Lead Generation",
+                desc: "Every configuration is a potential sale. Capture customer interest automatically and follow up with personalized offers.",
               },
               {
-                quote:
-                  "Integration was seamless. We had the configurator running on our website in less than 30 minutes.",
-                name: "Karim Dupont",
-                role: "CTO at BikeZone France",
-                initials: "KD",
+                icon: Zap,
+                title: "Competitive Edge",
+                desc: "Stand out from competitors with cutting-edge 3D technology. Show you're a modern, tech-forward dealership.",
               },
-            ].map((t) => (
-              <motion.div key={t.name} variants={fadeUp}>
+            ].map((item) => (
+              <motion.div key={item.title} variants={fadeUp}>
                 <Card className="border-border/50 bg-card/40 h-full rounded-xl border p-8 backdrop-blur-xl">
                   <CardContent className="flex h-full flex-col p-0">
-                    <div className="mb-4 flex gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="text-accent h-4 w-4 fill-accent"
-                        />
-                      ))}
+                    <div className="bg-primary/10 text-primary mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full">
+                      <item.icon className="h-7 w-7" />
                     </div>
-                    <p className="text-foreground/90 flex-1 text-sm leading-relaxed">
-                      &ldquo;{t.quote}&rdquo;
+                    <h3 className="font-display mb-3 text-xl font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="text-muted-foreground flex-1 text-sm leading-relaxed">
+                      {item.desc}
                     </p>
-                    <div className="mt-6 flex items-center gap-3">
-                      <Avatar className="border-primary/30 h-11 w-11 border">
-                        <AvatarFallback className="bg-primary/15 text-primary font-semibold">
-                          {t.initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-sm font-semibold">{t.name}</p>
-                        <p className="text-muted-foreground text-xs">
-                          {t.role}
-                        </p>
-                      </div>
-                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -986,19 +859,24 @@ export default function MarketingPage() {
               variants={fadeUp}
               className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg"
             >
-              Join 200+ dealerships already using MOTO3D AI
+              Be among the first dealerships to use AI-powered 3D configuration
             </motion.p>
             <motion.form
               variants={fadeUp}
-              className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row"
+              className="mx-auto mt-8 flex max-w-md gap-3"
               onSubmit={(e) => {
                 e.preventDefault();
+                const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement)?.value;
+                if (email) {
+                  window.location.href = `/register?email=${encodeURIComponent(email)}`;
+                }
               }}
             >
               <input
                 type="email"
+                name="email"
+                placeholder="Enter your email"
                 required
-                placeholder="Work email"
                 className="border-border bg-background/80 text-foreground focus-visible:ring-primary flex-1 rounded-lg border px-4 py-3 text-sm outline-none focus-visible:ring-2"
               />
               <Button type="submit" size="lg" className="animate-pulse-glow shrink-0 px-8">
