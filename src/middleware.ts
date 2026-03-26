@@ -29,7 +29,8 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/register') ||
     request.nextUrl.pathname.startsWith('/forgot-password')
 
-  const isPublicRoute = request.nextUrl.pathname.startsWith('/shared/')
+  const isPublicRoute = request.nextUrl.pathname.startsWith('/shared/') ||
+    request.nextUrl.pathname.startsWith('/embed/')
   
   const isDemoMode = request.nextUrl.pathname === '/configurator' && 
     request.nextUrl.searchParams.get('demo') === 'true'

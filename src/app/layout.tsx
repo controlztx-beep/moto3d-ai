@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 
 import { Providers } from "@/app/providers";
+import { CookieBanner } from "@/components/layout/CookieBanner";
 
 import "./globals.css";
 
@@ -58,9 +59,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${inter.variable} ${outfit.variable} font-sans bg-background text-foreground antialiased min-h-screen`}
+        className={`${inter.variable} ${outfit.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
+        <CookieBanner />
       </body>
     </html>
   );
