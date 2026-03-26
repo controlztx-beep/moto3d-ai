@@ -32,14 +32,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const HeroMotorcycle = dynamic(
-  () =>
-    import("@/components/3d/HeroMotorcycle").then((m) => ({
-      default: m.HeroMotorcycle,
-    })),
-  { ssr: false },
-);
-
 const DemoMotorcycleGLB = dynamic(
   () =>
     import("@/components/3d/DemoMotorcycleGLB").then((m) => ({
@@ -139,14 +131,21 @@ export default function MarketingPage() {
     <>
       {/* HERO SECTION */}
       <section className="relative min-h-screen bg-[#0a0a0a] pt-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid min-h-[calc(100vh-6rem)] items-center gap-12 lg:grid-cols-12">
-            {/* Left Content - 55% */}
+        {/* Decorative motorcycle watermark */}
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <div className="text-[20rem] opacity-[0.02] select-none">
+            🏍️
+          </div>
+        </div>
+        
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex min-h-[calc(100vh-6rem)] items-center justify-center">
+            {/* Centered Content */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="lg:col-span-7"
+              className="text-center"
             >
               <Badge
                 variant="outline"
@@ -167,12 +166,12 @@ export default function MarketingPage() {
                 </span>
               </h1>
 
-              <p className="mb-10 max-w-lg text-lg leading-relaxed text-neutral-400">
+              <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-neutral-400">
                 AI-powered 3D configurator for dealerships. Let customers build
                 their dream bike in real-time.
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 <Link href="/register">
                   <Button
                     size="lg"
@@ -197,18 +196,9 @@ export default function MarketingPage() {
               <p className="mt-6 text-xs text-neutral-500">
                 No credit card required • Free plan available
               </p>
-            </motion.div>
 
-            {/* Right 3D Model - 45% */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="lg:col-span-5"
-            >
-              <div className="relative h-[400px] w-full overflow-hidden rounded-lg border border-neutral-800 bg-[#0a0a0a] lg:h-[600px]">
-                <HeroMotorcycle />
-              </div>
+              {/* Decorative red line accent */}
+              <div className="mx-auto mt-12 h-1 w-24 bg-red-600"></div>
             </motion.div>
           </div>
         </div>
