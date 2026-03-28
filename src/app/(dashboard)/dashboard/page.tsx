@@ -87,7 +87,7 @@ function formatUsd(n: number) {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [userName, setUserName] = React.useState("rider");
+  const [userName, setUserName] = React.useState("");
   const [totalConfigs, setTotalConfigs] = React.useState<number>(0);
   const [recentConfigs, setRecentConfigs] = React.useState<RecentConfig[]>([]);
   const [totalValue, setTotalValue] = React.useState<number>(0);
@@ -99,9 +99,12 @@ export default function DashboardPage() {
       setLoading(true);
       try {
         const supabase = createClient();
-        const { data } = await supabase.auth.getUser();
-        const user = data.user;
-        if (!user) return;
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          if (!cancelled) router.push("/login");
+          return;
+        }
 
         const { data: p } = await supabase
           .from("profiles")
@@ -109,13 +112,13 @@ export default function DashboardPage() {
           .eq("id", user.id)
           .single();
 
+        const profileRow = p as unknown as ProfileRow | null;
         if (!cancelled) {
-          const profile = p as unknown as ProfileRow | null;
+          const fullName = profileRow?.full_name ?? user.user_metadata?.full_name;
           setUserName(
-            profile?.full_name ||
-              user.user_metadata?.full_name ||
-              user.email?.split("@")[0] ||
-              "rider",
+            fullName || 
+            user.email?.split("@")[0] || 
+            "User"
           );
         }
 
@@ -151,7 +154,7 @@ export default function DashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [router]);
 
   return (
     <div className="min-h-0">

@@ -263,11 +263,40 @@ export default function DashboardLayout({
             <Bell className="size-4" />
             <span className="absolute right-2 top-2 size-2 rounded-full bg-red-500" />
           </Button>
-          <Avatar size="default">
-            <AvatarFallback>
-              {initialsFromName(profile?.full_name)}
-            </AvatarFallback>
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="relative h-9 w-9 rounded-full border-0 bg-transparent p-0 hover:bg-transparent">
+              <Avatar size="default">
+                <AvatarFallback>
+                  {initialsFromName(profile?.full_name)}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <div className="px-2 py-1.5">
+                <p className="text-sm font-medium">
+                  {profile?.full_name || profile?.email?.split('@')[0] || "User"}
+                </p>
+                <p className="text-xs text-muted-foreground">{profile?.email}</p>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => router.push("/")}>
+                Home
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                Dashboard
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/configurator")}>
+                Configurator
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onLogout} className="text-red-500">
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
