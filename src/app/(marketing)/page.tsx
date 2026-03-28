@@ -81,8 +81,8 @@ const features = [
   },
   {
     icon: Share2,
-    title: "Social Sharing",
-    body: "Customers can share their dream configurations on social media, generating organic marketing for your dealership.",
+    title: "Compare & Share",
+    body: "Compare any motorcycle side by side with detailed specifications. Customers can share their dream configurations on social media.",
   },
   {
     icon: Smartphone,

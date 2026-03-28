@@ -43,6 +43,7 @@ function SocialIconYouTube({ className }: { className?: string }) {
 const product = [
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/#pricing" },
+  { label: "Compare", href: "/compare" },
   { label: "Configurator", href: "/configurator?demo=true" },
   { label: "Log In", href: "/login" },
   { label: "Sign Up", href: "/register" },

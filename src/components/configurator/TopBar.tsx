@@ -12,6 +12,7 @@ import {
   Save,
   Check,
   Loader2,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
@@ -33,6 +34,8 @@ import {
 import { cn } from "@/lib/utils";
 import type { Motorcycle } from "@/stores/configuratorStore";
 import { useConfiguratorStore } from "@/stores/configuratorStore";
+import { RequestQuoteModal } from "@/components/configurator/RequestQuoteModal";
+import { Button } from "@/components/ui/button";
 
 function formatUsd(n: number) {
   return new Intl.NumberFormat("en-US", {
@@ -67,6 +70,17 @@ export function TopBar({ isDemoMode = false }: { isDemoMode?: boolean }) {
   const [editing, setEditing] = React.useState(false);
   const [draftName, setDraftName] = React.useState(configName);
   const [saving, setSaving] = React.useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState<string>();
+
+  React.useEffect(() => {
+    async function loadUser() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.email) setUserEmail(user.email);
+    }
+    void loadUser();
+  }, []);
 
   React.useEffect(() => {
     setDraftName(configName);
@@ -174,7 +188,8 @@ export function TopBar({ isDemoMode = false }: { isDemoMode?: boolean }) {
   ]);
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between gap-2.5 border-b border-border bg-background/95 px-4 backdrop-blur-sm">
+    <>
+      <header className="flex h-14 shrink-0 items-center justify-between gap-2.5 border-b border-border bg-background/95 px-4 backdrop-blur-sm">
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <Tooltip>
             <TooltipTrigger
@@ -268,6 +283,15 @@ export function TopBar({ isDemoMode = false }: { isDemoMode?: boolean }) {
             {formatUsd(totalPrice)}
           </div>
 
+          <Button
+            onClick={() => setQuoteModalOpen(true)}
+            className="hidden bg-red-600 hover:bg-red-700 sm:flex"
+            size="sm"
+          >
+            <Send className="mr-2 h-4 w-4" />
+            Request Quote
+          </Button>
+
           <Tooltip>
             <TooltipTrigger
               className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }))}
@@ -329,5 +353,20 @@ export function TopBar({ isDemoMode = false }: { isDemoMode?: boolean }) {
           </Tooltip>
         </div>
       </header>
+
+      <RequestQuoteModal
+        open={quoteModalOpen}
+        onOpenChange={setQuoteModalOpen}
+        motorcycleName={currentMoto?.name || ""}
+        motorcycleBrand={currentMoto?.brand || ""}
+        motorcycleYear={new Date().getFullYear()}
+        color={globalColor}
+        upgrades={equippedParts.map(p => ({ name: String(p), price: 0 }))}
+        totalPrice={totalPrice}
+        configurationId={currentConfigId || undefined}
+        configData={{ globalColor, globalMaterial, partColors }}
+        userEmail={userEmail}
+      />
+    </>
   );
 }

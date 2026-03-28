@@ -31,6 +31,7 @@ const nav: Array<{ label: string; id?: string; href?: string }> = [
   { label: "Features", id: "features" },
   { label: "How it Works", id: "how-it-works" },
   { label: "Pricing", id: "pricing" },
+  { label: "Compare", href: "/compare" },
   { label: "Demo", href: "/configurator?demo=true" },
 ];
 

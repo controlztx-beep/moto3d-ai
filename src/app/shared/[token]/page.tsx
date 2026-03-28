@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Check, Loader2, AlertCircle } from "lucide-react";
+import { Check, Loader2, AlertCircle, Send } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { RequestQuoteModal } from "@/components/configurator/RequestQuoteModal";
 
 interface SharedConfig {
   id: string;
@@ -54,6 +56,7 @@ export default function SharedConfigPage() {
   const [parts, setParts] = React.useState<Part[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [quoteModalOpen, setQuoteModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     async function loadSharedConfig() {
@@ -252,17 +255,27 @@ export default function SharedConfigPage() {
         <Card className="mt-8 border-primary/20 bg-primary/5">
           <CardContent className="flex flex-col items-center gap-4 p-8 text-center">
             <div className="text-lg font-semibold">
-              Ready to build your own custom motorcycle?
+              Interested in this configuration?
             </div>
             <p className="text-muted-foreground">
-              Create, customize, and share your dream bike with MOTO3D AI
+              Request a quote from a dealership or build your own custom bike
             </p>
-            <Link
-              href="/register"
-              className={cn(buttonVariants({ size: "lg" }), "gap-2")}
-            >
-              Get Started Free
-            </Link>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button
+                onClick={() => setQuoteModalOpen(true)}
+                className="bg-red-600 hover:bg-red-700"
+                size="lg"
+              >
+                <Send className="mr-2 h-4 w-4" />
+                Request Quote for This Build
+              </Button>
+              <Link
+                href="/register"
+                className={cn(buttonVariants({ size: "lg", variant: "outline" }), "gap-2")}
+              >
+                Create Your Own
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </main>
@@ -272,6 +285,19 @@ export default function SharedConfigPage() {
           <p>Powered by MOTO3D AI - The Ultimate Motorcycle Configurator</p>
         </div>
       </footer>
+
+      <RequestQuoteModal
+        open={quoteModalOpen}
+        onOpenChange={setQuoteModalOpen}
+        motorcycleName={config.motorcycles.name}
+        motorcycleBrand={config.motorcycles.brand}
+        motorcycleYear={new Date().getFullYear()}
+        color={color}
+        upgrades={parts.map(p => ({ name: p.name, price: p.price }))}
+        totalPrice={config.total_price}
+        configurationId={config.id}
+        configData={config.config_data}
+      />
     </div>
   );
 }
